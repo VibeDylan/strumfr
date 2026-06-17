@@ -14,7 +14,7 @@ function inline(text: string) {
 
 export function renderMarkdown(source: string) {
   const lines = escapeHtml(source).split("\n");
-  const html: string[] = [];
+  const html: string[] = []
   let inList = false;
 
   for (const rawLine of lines) {
