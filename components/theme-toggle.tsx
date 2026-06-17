@@ -4,13 +4,17 @@ import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export function ThemeToggle() {
+export function ThemeToggle({
+  size = "icon",
+}: {
+  size?: "icon" | "icon-sm";
+}) {
   const { resolvedTheme, setTheme } = useTheme();
 
   return (
     <Button
       variant="ghost"
-      size="icon"
+      size={size}
       aria-label="Changer de thème"
       onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
     >

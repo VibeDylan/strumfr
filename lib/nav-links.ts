@@ -17,17 +17,42 @@ export type NavLink = {
   icon: LucideIcon;
 };
 
-export const navLinks: NavLink[] = [
-  { href: "/dashboard", label: "Tableau de bord", icon: LayoutDashboard },
-  { href: "/timer", label: "Chrono", icon: Timer },
-  { href: "/stats", label: "Stats", icon: BarChart3 },
-  { href: "/sessions", label: "Historique", icon: History },
-  { href: "/library", label: "Bibliothèque", icon: Library },
-  { href: "/repertoire", label: "Répertoire", icon: ListMusic },
-  { href: "/goals", label: "Objectifs", icon: Target },
-  { href: "/journal", label: "Journal", icon: NotebookPen },
-  { href: "/settings", label: "Réglages", icon: Settings },
+export type NavGroup = {
+  label: string;
+  links: NavLink[];
+};
+
+export const navGroups: NavGroup[] = [
+  {
+    label: "Pratique",
+    links: [
+      { href: "/dashboard", label: "Tableau de bord", icon: LayoutDashboard },
+      { href: "/timer", label: "Chrono", icon: Timer },
+      { href: "/stats", label: "Stats", icon: BarChart3 },
+      { href: "/sessions", label: "Historique", icon: History },
+    ],
+  },
+  {
+    label: "Contenu",
+    links: [
+      { href: "/library", label: "Bibliothèque", icon: Library },
+      { href: "/repertoire", label: "Répertoire", icon: ListMusic },
+    ],
+  },
+  {
+    label: "Suivi",
+    links: [
+      { href: "/goals", label: "Objectifs", icon: Target },
+      { href: "/journal", label: "Journal", icon: NotebookPen },
+    ],
+  },
+  {
+    label: "Compte",
+    links: [{ href: "/settings", label: "Réglages", icon: Settings }],
+  },
 ];
+
+export const navLinks: NavLink[] = navGroups.flatMap((g) => g.links);
 
 export const bottomNavLinks: NavLink[] = [
   { href: "/dashboard", label: "Accueil", icon: LayoutDashboard },

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Play, Pause, Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -107,9 +108,9 @@ export function Metronome() {
   const beatsPerBar = BEATS_PER_SIGNATURE[signature];
 
   return (
-    <div className="space-y-4 rounded-lg border border-border bg-card p-4">
-      <div className="flex items-center justify-between">
-        <span className="text-sm font-medium">Métronome</span>
+    <Card className="gap-4">
+      <CardHeader className="flex-row items-center justify-between space-y-0">
+        <CardTitle>Métronome</CardTitle>
         <Select
           value={signature}
           onValueChange={(v) => setSignature(v as TimeSignature)}
@@ -125,8 +126,8 @@ export function Metronome() {
             ))}
           </SelectContent>
         </Select>
-      </div>
-
+      </CardHeader>
+      <CardContent className="space-y-4">
       <div className="flex justify-center gap-1.5">
         {Array.from({ length: beatsPerBar }).map((_, i) => (
           <span
@@ -183,6 +184,7 @@ export function Metronome() {
           </>
         )}
       </Button>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Play, Pause, Square } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Card } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -98,8 +99,8 @@ export function PracticeTimer() {
   }
 
   return (
-    <div className="flex flex-col items-center gap-8 py-8">
-      <div className="font-mono text-6xl tabular-nums sm:text-7xl">
+    <Card className="hero-panel flex flex-col items-center gap-8 px-6 py-10">
+      <div className="font-mono text-7xl font-medium tabular-nums sm:text-8xl">
         {formatDuration(elapsed)}
       </div>
 
@@ -154,6 +155,6 @@ export function PracticeTimer() {
           </Button>
         )}
       </div>
-    </div>
+    </Card>
   );
 }

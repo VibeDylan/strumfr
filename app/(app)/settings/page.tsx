@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { DataExportImport } from "@/components/settings/data-export-import";
 import { Skeleton } from "@/components/ui/skeleton";
+import { PageHeader } from "@/components/layout/page-header";
 
 export default function SettingsPage() {
   return (
@@ -24,8 +25,8 @@ async function SettingsContent() {
   const { user } = await verifySession();
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-6 px-4 py-8">
-      <h1 className="text-2xl font-semibold">Réglages</h1>
+    <div className="mx-auto flex max-w-2xl flex-col gap-6 px-6 py-10">
+      <PageHeader title="Réglages" description="Compte, apparence et données" />
 
       <Card>
         <CardHeader>

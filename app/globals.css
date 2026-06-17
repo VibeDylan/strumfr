@@ -39,6 +39,7 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-violet: var(--violet);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -49,72 +50,74 @@
 }
 
 :root {
-  --background: #faf6ee;
-  --foreground: #2a201a;
+  --background: #fafafa;
+  --foreground: #18181b;
   --card: #ffffff;
-  --card-foreground: #2a201a;
+  --card-foreground: #18181b;
   --popover: #ffffff;
-  --popover-foreground: #2a201a;
-  --primary: #c2791f;
-  --primary-foreground: #faf6ee;
-  --secondary: #f0e6d4;
-  --secondary-foreground: #2a201a;
-  --muted: #f0e6d4;
-  --muted-foreground: #6b5d4f;
-  --accent: #e8a14a;
-  --accent-foreground: #2a201a;
-  --destructive: #b3433d;
-  --border: #e3d6c0;
-  --input: #e3d6c0;
-  --ring: #c2791f;
-  --chart-1: #e8a14a;
-  --chart-2: #8a9a5b;
-  --chart-3: #5b8a8a;
-  --chart-4: #6a5a8a;
-  --chart-5: #c2791f;
-  --radius: 0.625rem;
-  --sidebar: #f0e6d4;
-  --sidebar-foreground: #2a201a;
-  --sidebar-primary: #c2791f;
-  --sidebar-primary-foreground: #faf6ee;
-  --sidebar-accent: #e8a14a;
-  --sidebar-accent-foreground: #2a201a;
-  --sidebar-border: #e3d6c0;
-  --sidebar-ring: #c2791f;
+  --popover-foreground: #18181b;
+  --primary: #b9762a;
+  --primary-foreground: #fafafa;
+  --secondary: #f1f1f1;
+  --secondary-foreground: #18181b;
+  --muted: #f1f1f1;
+  --muted-foreground: #71717a;
+  --accent: #f1f1f1;
+  --accent-foreground: #18181b;
+  --destructive: #dc2626;
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #b9762a;
+  --chart-1: #b9762a;
+  --chart-2: #5b5fc7;
+  --chart-3: #2a9d8f;
+  --chart-4: #c2477e;
+  --chart-5: #71717a;
+  --radius: 0.75rem;
+  --violet: #6e62e8;
+  --sidebar: #f4f4f5;
+  --sidebar-foreground: #18181b;
+  --sidebar-primary: #b9762a;
+  --sidebar-primary-foreground: #fafafa;
+  --sidebar-accent: #e9e9ec;
+  --sidebar-accent-foreground: #18181b;
+  --sidebar-border: #e4e4e7;
+  --sidebar-ring: #b9762a;
 }
 
 .dark {
-  --background: #0e0a08;
-  --foreground: #f4ead5;
-  --card: #1a1410;
-  --card-foreground: #f4ead5;
-  --popover: #1a1410;
-  --popover-foreground: #f4ead5;
-  --primary: #e8a14a;
-  --primary-foreground: #1a1410;
-  --secondary: #2a201a;
-  --secondary-foreground: #f4ead5;
-  --muted: #2a201a;
-  --muted-foreground: #b8a890;
-  --accent: #e8a14a;
-  --accent-foreground: #1a1410;
-  --destructive: #c2453f;
-  --border: #2a201a;
-  --input: #2a201a;
-  --ring: #e8a14a;
-  --chart-1: #e8a14a;
-  --chart-2: #8a9a5b;
-  --chart-3: #5b8a8a;
-  --chart-4: #9a8ac9;
-  --chart-5: #c97f3a;
-  --sidebar: #1a1410;
-  --sidebar-foreground: #f4ead5;
-  --sidebar-primary: #e8a14a;
-  --sidebar-primary-foreground: #1a1410;
-  --sidebar-accent: #2a201a;
-  --sidebar-accent-foreground: #f4ead5;
-  --sidebar-border: #2a201a;
-  --sidebar-ring: #e8a14a;
+  --background: #0a0a0b;
+  --foreground: #ededed;
+  --card: #131314;
+  --card-foreground: #ededed;
+  --popover: #18181a;
+  --popover-foreground: #ededed;
+  --primary: #f0a84e;
+  --primary-foreground: #18120a;
+  --secondary: #1c1c1e;
+  --secondary-foreground: #ededed;
+  --muted: #1a1a1c;
+  --muted-foreground: #8f8f96;
+  --accent: #1f1f22;
+  --accent-foreground: #ededed;
+  --destructive: #e5484d;
+  --border: #232326;
+  --input: #232326;
+  --ring: #f0a84e;
+  --chart-1: #f0a84e;
+  --chart-2: #7b7fe0;
+  --chart-3: #45c4ae;
+  --chart-4: #e07ba3;
+  --chart-5: #8f8f96;
+  --violet: #8b85f0;
+  --sidebar: #0d0d0e;
+  --sidebar-foreground: #ededed;
+  --sidebar-primary: #f0a84e;
+  --sidebar-primary-foreground: #18120a;
+  --sidebar-accent: #1c1c1e;
+  --sidebar-accent-foreground: #ededed;
+  --sidebar-border: #1e1e21;
+  --sidebar-ring: #f0a84e;
 }
 
 @layer base {
@@ -127,6 +130,28 @@
   html {
     @apply font-sans;
   }
+}
+
+.brand-gradient {
+  background-image: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--primary), white 8%),
+    var(--primary) 55%,
+    color-mix(in oklch, var(--primary), black 25%)
+  );
+}
+
+.hero-panel {
+  background-image: radial-gradient(
+      circle at 0% 0%,
+      color-mix(in oklch, var(--primary), transparent 88%),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 100% 0%,
+      color-mix(in oklch, var(--violet), transparent 90%),
+      transparent 50%
+    );
 }
 
 .markdown-preview h1 {

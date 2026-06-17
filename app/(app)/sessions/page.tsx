@@ -5,6 +5,9 @@ import { SessionsFilters } from "@/components/sessions/filters";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { PageHeader } from "@/components/layout/page-header";
+import { EmptyState } from "@/components/layout/empty-state";
+import { History } from "lucide-react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 
@@ -59,16 +62,21 @@ async function SessionsContent({
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
 
   return (
-    <div className="mx-auto flex max-w-3xl flex-col gap-6 px-4 py-8">
-      <h1 className="text-2xl font-semibold">Historique des sessions</h1>
+    <div className="mx-auto flex max-w-3xl flex-col gap-6 px-6 py-10">
+      <PageHeader
+        title="Historique"
+        description="Toutes tes sessions de pratique enregistrées"
+      />
 
       <SessionsFilters />
 
       <div className="space-y-3">
         {pageItems.length === 0 && (
-          <p className="text-sm text-muted-foreground">
-            Aucune session trouvée
-          </p>
+          <EmptyState
+            icon={History}
+            title="Aucune session trouvée"
+            description="Ajuste les filtres ou lance une session depuis le chrono"
+          />
         )}
         {pageItems.map((session) => (
           <Card key={session.id}>

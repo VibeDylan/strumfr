@@ -11,6 +11,7 @@ import { PracticeBarChart } from "@/components/stats/bar-chart";
 import { CategoryPieChart } from "@/components/stats/category-pie-chart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { PageHeader } from "@/components/layout/page-header";
 import {
   Tabs,
   TabsContent,
@@ -44,8 +45,11 @@ async function StatsContent() {
   const heatmap = computeHeatmap(sessions, 365);
 
   return (
-    <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-8">
-      <h1 className="text-2xl font-semibold">Statistiques</h1>
+    <div className="mx-auto flex max-w-5xl flex-col gap-6 px-6 py-10">
+      <PageHeader
+        title="Statistiques"
+        description="Ton temps de pratique et ta progression dans le temps"
+      />
 
       <Card>
         <CardHeader>
