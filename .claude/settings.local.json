@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(npx shadcn@latest add form --overwrite --dry-run 2>&1)"
+    ]
+  }
+}
