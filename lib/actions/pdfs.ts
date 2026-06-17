@@ -39,7 +39,7 @@ export async function uploadPdf(formData: FormData) {
   const tags = tagsSchema.parse(formData.get("tags") ?? undefined);
 
   const blob = await put(`pdfs/${userId}/${crypto.randomUUID()}-${file.name}`, file, {
-    access: "public",
+    access: "private",
   });
 
   await db.insert(pdfs).values({

@@ -78,7 +78,7 @@ export function PdfCard({ pdf }: { pdf: Pdf }) {
             <DialogHeader>
               <DialogTitle>{pdf.name}</DialogTitle>
             </DialogHeader>
-            <PdfViewer url={pdf.blobUrl} />
+            <PdfViewer url={`/api/pdfs/${pdf.id}`} />
           </DialogContent>
         </Dialog>
         <Button
