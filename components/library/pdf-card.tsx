@@ -20,6 +20,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { deletePdf } from "@/lib/actions/pdfs";
+import { PdfViewer } from "@/components/library/pdf-viewer";
 
 type Pdf = {
   id: string;
@@ -73,11 +74,11 @@ export function PdfCard({ pdf }: { pdf: Pdf }) {
               </Button>
             }
           />
-          <DialogContent className="max-w-3xl">
+          <DialogContent className="max-w-4xl">
             <DialogHeader>
               <DialogTitle>{pdf.name}</DialogTitle>
             </DialogHeader>
-            <iframe src={pdf.blobUrl} className="h-[70vh] w-full rounded" />
+            <PdfViewer url={pdf.blobUrl} />
           </DialogContent>
         </Dialog>
         <Button

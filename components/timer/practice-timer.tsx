@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { Play, Pause, Square } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useTimerStore } from "@/lib/stores/timer-store";
+import { useTimerElapsed } from "@/lib/hooks/use-timer-elapsed";
 import { createPracticeSession } from "@/lib/actions/practice";
 import { practiceCategoryValues } from "@/lib/db/schema";
 
@@ -24,8 +25,6 @@ const CATEGORY_LABELS: Record<string, string> = {
   impro: "Improvisation",
   autre: "Autre",
 };
-
-const MILESTONES_MIN = [15, 30, 60];
 
 function formatDuration(totalSec: number) {
   const h = Math.floor(totalSec / 3600);
@@ -39,35 +38,18 @@ export function PracticeTimer() {
     isRunning,
     category,
     notes,
-    reachedMilestones,
     start,
     pause,
     resume,
     reset,
     setCategory,
     setNotes,
-    markMilestone,
     getElapsedSec,
   } = useTimerStore();
 
-  const [elapsed, setElapsed] = useState(getElapsedSec());
+  const elapsed = useTimerElapsed();
   const [isSaving, setIsSaving] = useState(false);
   const sessionStartRef = useRef<Date | null>(null);
-
-  useEffect(() => {
-    const id = window.setInterval(() => {
-      const sec = getElapsedSec();
-      setElapsed(sec);
-
-      for (const milestone of MILESTONES_MIN) {
-        if (sec >= milestone * 60 && !reachedMilestones.includes(milestone)) {
-          markMilestone(milestone);
-          toast(`${milestone} minutes de pratique atteintes !`);
-        }
-      }
-    }, 1000);
-    return () => window.clearInterval(id);
-  }, [getElapsedSec, markMilestone, reachedMilestones]);
 
   function handleStart() {
     sessionStartRef.current = new Date();
@@ -94,7 +76,6 @@ export function PracticeTimer() {
     } finally {
       setIsSaving(false);
       reset();
-      setElapsed(0);
     }
   }
 

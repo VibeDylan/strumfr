@@ -1,5 +1,6 @@
 import { Sidebar } from "@/components/layout/sidebar";
 import { BottomNav } from "@/components/layout/bottom-nav";
+import { MiniTimerBar } from "@/components/timer/mini-timer-bar";
 
 export default function AppLayout({
   children,
@@ -13,6 +14,7 @@ export default function AppLayout({
         <main className="flex-1 pb-20 md:pb-0">{children}</main>
         <BottomNav />
       </div>
+      <MiniTimerBar />
     </div>
   );
 }
