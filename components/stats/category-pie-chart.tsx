@@ -50,7 +50,7 @@ export function CategoryPieChart({
             borderRadius: 8,
             color: "var(--card-foreground)",
           }}
-          formatter={(value: number) => [`${value} min`, ""]}
+          formatter={(value) => [`${value} min`, ""]}
         />
       </PieChart>
     </ResponsiveContainer>

@@ -1,9 +1,26 @@
+import { Suspense } from "react";
 import { verifySession } from "@/lib/dal";
 import { getPdfs } from "@/lib/data/pdfs";
 import { UploadForm } from "@/components/library/upload-form";
 import { PdfCard } from "@/components/library/pdf-card";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export default async function LibraryPage() {
+export default function LibraryPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-8">
+          <Skeleton className="h-8 w-48" />
+          <Skeleton className="h-24 w-full" />
+        </div>
+      }
+    >
+      <LibraryContent />
+    </Suspense>
+  );
+}
+
+async function LibraryContent() {
   const { userId } = await verifySession();
   const pdfList = await getPdfs(userId);
 

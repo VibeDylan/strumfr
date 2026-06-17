@@ -1,9 +1,26 @@
+import { Suspense } from "react";
 import { verifySession } from "@/lib/dal";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { DataExportImport } from "@/components/settings/data-export-import";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export default async function SettingsPage() {
+export default function SettingsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="mx-auto flex max-w-2xl flex-col gap-4 px-4 py-8">
+          <Skeleton className="h-8 w-48" />
+          <Skeleton className="h-24 w-full" />
+        </div>
+      }
+    >
+      <SettingsContent />
+    </Suspense>
+  );
+}
+
+async function SettingsContent() {
   const { user } = await verifySession();
 
   return (

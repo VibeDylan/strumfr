@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 import { verifySession } from "@/lib/dal";
 import {
   getAllSessions,
@@ -18,7 +20,23 @@ function formatMinutes(sec: number) {
   return `${Math.round(sec / 60)} min`;
 }
 
-export default async function DashboardPage() {
+export default function DashboardPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-8">
+          <Skeleton className="h-8 w-48" />
+          <Skeleton className="h-32 w-full" />
+          <Skeleton className="h-64 w-full" />
+        </div>
+      }
+    >
+      <DashboardContent />
+    </Suspense>
+  );
+}
+
+async function DashboardContent() {
   const { userId, user } = await verifySession();
   const sessions = await getAllSessions(userId);
   const todaySec = computeTodayDurationSec(sessions);

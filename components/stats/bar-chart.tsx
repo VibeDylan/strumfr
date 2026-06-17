@@ -37,7 +37,7 @@ export function PracticeBarChart({
             borderRadius: 8,
             color: "var(--card-foreground)",
           }}
-          formatter={(value: number) => [`${value} min`, "Pratique"]}
+          formatter={(value) => [`${value} min`, "Pratique"]}
         />
         <Bar dataKey="minutes" fill="var(--primary)" radius={[4, 4, 0, 0]} />
       </BarChart>

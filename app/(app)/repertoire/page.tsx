@@ -1,11 +1,28 @@
+import { Suspense } from "react";
 import { Plus } from "lucide-react";
 import { verifySession } from "@/lib/dal";
 import { getRepertoire } from "@/lib/data/repertoire";
 import { RepertoireCard } from "@/components/repertoire/repertoire-card";
 import { RepertoireDialog } from "@/components/repertoire/repertoire-dialog";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export default async function RepertoirePage() {
+export default function RepertoirePage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-8">
+          <Skeleton className="h-8 w-48" />
+          <Skeleton className="h-64 w-full" />
+        </div>
+      }
+    >
+      <RepertoireContent />
+    </Suspense>
+  );
+}
+
+async function RepertoireContent() {
   const { userId } = await verifySession();
   const items = await getRepertoire(userId);
 

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { verifySession } from "@/lib/dal";
 import {
   getAllSessions,
@@ -9,6 +10,7 @@ import { ActivityHeatmap } from "@/components/stats/heatmap";
 import { PracticeBarChart } from "@/components/stats/bar-chart";
 import { CategoryPieChart } from "@/components/stats/category-pie-chart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Tabs,
   TabsContent,
@@ -16,7 +18,22 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 
-export default async function StatsPage() {
+export default function StatsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-8">
+          <Skeleton className="h-8 w-48" />
+          <Skeleton className="h-64 w-full" />
+        </div>
+      }
+    >
+      <StatsContent />
+    </Suspense>
+  );
+}
+
+async function StatsContent() {
   const { userId } = await verifySession();
   const sessions = await getAllSessions(userId);
 

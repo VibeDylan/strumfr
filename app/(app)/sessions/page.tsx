@@ -1,8 +1,10 @@
+import { Suspense } from "react";
 import { verifySession } from "@/lib/dal";
 import { getAllSessions } from "@/lib/data/practice";
 import { SessionsFilters } from "@/components/sessions/filters";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 
@@ -16,7 +18,26 @@ const CATEGORY_LABELS: Record<string, string> = {
 
 const PAGE_SIZE = 20;
 
-export default async function SessionsPage({
+export default function SessionsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string; q?: string; page?: string }>;
+}) {
+  return (
+    <Suspense
+      fallback={
+        <div className="mx-auto flex max-w-3xl flex-col gap-4 px-4 py-8">
+          <Skeleton className="h-8 w-48" />
+          <Skeleton className="h-64 w-full" />
+        </div>
+      }
+    >
+      <SessionsContent searchParams={searchParams} />
+    </Suspense>
+  );
+}
+
+async function SessionsContent({
   searchParams,
 }: {
   searchParams: Promise<{ category?: string; q?: string; page?: string }>;

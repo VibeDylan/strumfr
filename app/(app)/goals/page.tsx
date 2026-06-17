@@ -1,9 +1,26 @@
+import { Suspense } from "react";
 import { verifySession } from "@/lib/dal";
 import { getAllGoals } from "@/lib/data/goals";
 import { GoalDialog } from "@/components/goals/goal-dialog";
 import { GoalCard } from "@/components/goals/goal-card";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export default async function GoalsPage() {
+export default function GoalsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="mx-auto flex max-w-3xl flex-col gap-4 px-4 py-8">
+          <Skeleton className="h-8 w-48" />
+          <Skeleton className="h-32 w-full" />
+        </div>
+      }
+    >
+      <GoalsContent />
+    </Suspense>
+  );
+}
+
+async function GoalsContent() {
   const { userId } = await verifySession();
   const goals = await getAllGoals(userId);
   const inProgress = goals.filter((g) => !g.completedAt);

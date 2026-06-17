@@ -1,10 +1,19 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/dal";
 import { Button } from "@/components/ui/button";
 import { Guitar, Timer, BarChart3, Library } from "lucide-react";
 
-export default async function HomePage() {
+export default function HomePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-background" />}>
+      <HomeContent />
+    </Suspense>
+  );
+}
+
+async function HomeContent() {
   const user = await getCurrentUser();
   if (user) {
     redirect("/dashboard");

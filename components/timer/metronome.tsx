@@ -169,7 +169,7 @@ export function Metronome() {
         max={240}
         step={1}
         value={[bpm]}
-        onValueChange={([v]) => changeBpm(v)}
+        onValueChange={(v) => changeBpm(Array.isArray(v) ? v[0] : v)}
       />
 
       <Button onClick={toggle} className="w-full" variant="secondary">
