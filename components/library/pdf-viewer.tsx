@@ -65,7 +65,7 @@ export function PdfViewer({ url }: { url: string }) {
           </Button>
         </div>
       </div>
-      <div className="max-h-[70vh] overflow-auto rounded-lg border border-border bg-background">
+      <div className="flex max-h-[70vh] justify-center overflow-auto rounded-lg border border-border bg-background">
         <Document
           file={url}
           onLoadSuccess={(doc) => setNumPages(doc.numPages)}
