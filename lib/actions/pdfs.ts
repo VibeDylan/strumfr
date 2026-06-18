@@ -5,7 +5,7 @@ import { put, del } from "@vercel/blob";
 import { eq, and } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
-import { pdfs } from "@/lib/db/schema";
+import { pdfs, pdfShares } from "@/lib/db/schema";
 import { verifySession } from "@/lib/dal";
 
 const MAX_SIZE_BYTES = 10 * 1024 * 1024;
@@ -22,8 +22,13 @@ const tagsSchema = z
       : []
   );
 
+const emailSchema = z.string().trim().toLowerCase().email();
+
 export async function uploadPdf(formData: FormData) {
-  const { userId } = await verifySession();
+  const { userId, isAdmin } = await verifySession();
+  if (!isAdmin) {
+    throw new Error("Seul un administrateur peut ajouter des PDF");
+  }
 
   const file = formData.get("file");
   if (!(file instanceof File)) {
@@ -54,7 +59,10 @@ export async function uploadPdf(formData: FormData) {
 }
 
 export async function deletePdf(id: string) {
-  const { userId } = await verifySession();
+  const { userId, isAdmin } = await verifySession();
+  if (!isAdmin) {
+    throw new Error("Seul un administrateur peut supprimer des PDF");
+  }
 
   const rows = await db
     .select()
@@ -65,6 +73,35 @@ export async function deletePdf(id: string) {
 
   await del(pdf.blobUrl);
   await db.delete(pdfs).where(and(eq(pdfs.id, id), eq(pdfs.userId, userId)));
+
+  revalidatePath("/library");
+}
+
+export async function sharePdf(pdfId: string, email: string) {
+  const { isAdmin } = await verifySession();
+  if (!isAdmin) {
+    throw new Error("Seul un administrateur peut partager des PDF");
+  }
+
+  const cleanEmail = emailSchema.parse(email);
+
+  await db
+    .insert(pdfShares)
+    .values({ pdfId, email: cleanEmail })
+    .onConflictDoNothing();
+
+  revalidatePath("/library");
+}
+
+export async function unsharePdf(pdfId: string, email: string) {
+  const { isAdmin } = await verifySession();
+  if (!isAdmin) {
+    throw new Error("Seul un administrateur peut gérer les partages");
+  }
+
+  await db
+    .delete(pdfShares)
+    .where(and(eq(pdfShares.pdfId, pdfId), eq(pdfShares.email, email)));
 
   revalidatePath("/library");
 }

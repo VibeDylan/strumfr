@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { deletePdf } from "@/lib/actions/pdfs";
 import { PdfViewer } from "@/components/library/pdf-viewer";
+import { ShareDialog } from "@/components/library/share-dialog";
 
 type Pdf = {
   id: string;
@@ -30,7 +31,15 @@ type Pdf = {
   tags: string[];
 };
 
-export function PdfCard({ pdf }: { pdf: Pdf }) {
+export function PdfCard({
+  pdf,
+  isAdmin = false,
+  shares = [],
+}: {
+  pdf: Pdf;
+  isAdmin?: boolean;
+  shares?: { email: string }[];
+}) {
   const [isDeleting, setIsDeleting] = useState(false);
 
   async function handleDelete() {
@@ -56,6 +65,8 @@ export function PdfCard({ pdf }: { pdf: Pdf }) {
       <CardContent className="space-y-2">
         <p className="text-xs text-muted-foreground">
           {(pdf.sizeBytes / (1024 * 1024)).toFixed(2)} Mo
+          {isAdmin &&
+            ` · partagé avec ${shares.length} personne${shares.length === 1 ? "" : "s"}`}
         </p>
         <div className="flex flex-wrap gap-1.5">
           {pdf.tags.map((tag) => (
@@ -81,15 +92,20 @@ export function PdfCard({ pdf }: { pdf: Pdf }) {
             <PdfViewer url={`/api/pdfs/${pdf.id}`} />
           </DialogContent>
         </Dialog>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={handleDelete}
-          disabled={isDeleting}
-          aria-label="Supprimer"
-        >
-          <Trash2 className="size-4" />
-        </Button>
+        {isAdmin && (
+          <>
+            <ShareDialog pdfId={pdf.id} pdfName={pdf.name} shares={shares} />
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleDelete}
+              disabled={isDeleting}
+              aria-label="Supprimer"
+            >
+              <Trash2 className="size-4" />
+            </Button>
+          </>
+        )}
       </CardFooter>
     </Card>
   );

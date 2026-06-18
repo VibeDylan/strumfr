@@ -5,6 +5,7 @@ import {
   integer,
   primaryKey,
   varchar,
+  unique,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 
@@ -106,6 +107,23 @@ export const pdfs = pgTable("pdfs", {
     .defaultNow(),
   tags: text("tags").array().notNull().default([]),
 });
+
+export const pdfShares = pgTable(
+  "pdf_shares",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    pdfId: text("pdfId")
+      .notNull()
+      .references(() => pdfs.id, { onDelete: "cascade" }),
+    email: text("email").notNull(),
+    createdAt: timestamp("createdAt", { mode: "date" })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [unique().on(table.pdfId, table.email)]
+);
 
 export const repertoireStatusValues = [
   "to_learn",
