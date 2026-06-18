@@ -3,7 +3,8 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 
 function getAdminEmails(): string[] {
-  return (process.env.ADMIN_EMAILS ?? "")
+  const raw = process.env.ADMIN_EMAILS ?? process.env.ADMIN_EMAIL ?? "";
+  return raw
     .split(",")
     .map((e) => e.trim().toLowerCase())
     .filter(Boolean);

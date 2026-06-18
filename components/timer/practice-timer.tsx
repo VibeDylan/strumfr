@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { Play, Pause, Square } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -38,6 +38,7 @@ export function PracticeTimer() {
     isRunning,
     category,
     notes,
+    sessionStartedAt,
     start,
     pause,
     resume,
@@ -49,12 +50,6 @@ export function PracticeTimer() {
 
   const elapsed = useTimerElapsed();
   const [isSaving, setIsSaving] = useState(false);
-  const sessionStartRef = useRef<Date | null>(null);
-
-  function handleStart() {
-    sessionStartRef.current = new Date();
-    start();
-  }
 
   async function handleStop() {
     const finalElapsed = getElapsedSec();
@@ -65,7 +60,7 @@ export function PracticeTimer() {
     setIsSaving(true);
     try {
       await createPracticeSession({
-        startedAt: sessionStartRef.current ?? new Date(),
+        startedAt: sessionStartedAt ? new Date(sessionStartedAt) : new Date(),
         durationSec: finalElapsed,
         category,
         notes: notes || undefined,
@@ -111,7 +106,7 @@ export function PracticeTimer() {
 
       <div className="flex items-center gap-3">
         {!isRunning && elapsed === 0 && (
-          <Button size="lg" onClick={handleStart}>
+          <Button size="lg" onClick={start}>
             <Play className="mr-2 size-4" /> Démarrer
           </Button>
         )}

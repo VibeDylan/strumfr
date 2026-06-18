@@ -7,6 +7,7 @@ import type { PracticeCategory } from "@/lib/db/schema";
 type TimerState = {
   isRunning: boolean;
   startedAt: number | null;
+  sessionStartedAt: number | null;
   elapsedBeforePauseSec: number;
   category: PracticeCategory;
   notes: string;
@@ -26,6 +27,7 @@ export const useTimerStore = create<TimerState>()(
     (set, get) => ({
       isRunning: false,
       startedAt: null,
+      sessionStartedAt: null,
       elapsedBeforePauseSec: 0,
       category: "technique",
       notes: "",
@@ -35,6 +37,7 @@ export const useTimerStore = create<TimerState>()(
         set({
           isRunning: true,
           startedAt: Date.now(),
+          sessionStartedAt: Date.now(),
           elapsedBeforePauseSec: 0,
           reachedMilestones: [],
         }),
@@ -58,6 +61,7 @@ export const useTimerStore = create<TimerState>()(
         set({
           isRunning: false,
           startedAt: null,
+          sessionStartedAt: null,
           elapsedBeforePauseSec: 0,
           notes: "",
           reachedMilestones: [],

@@ -23,6 +23,7 @@ export function MiniTimerBar() {
   const isRunning = useTimerStore((s) => s.isRunning);
   const pause = useTimerStore((s) => s.pause);
   const resume = useTimerStore((s) => s.resume);
+  const start = useTimerStore((s) => s.start);
   const reachedMilestones = useTimerStore((s) => s.reachedMilestones);
   const markMilestone = useTimerStore((s) => s.markMilestone);
   const elapsed = useTimerElapsed();
@@ -36,34 +37,47 @@ export function MiniTimerBar() {
     }
   }, [elapsed, reachedMilestones, markMilestone]);
 
-  if (elapsed === 0 && !isRunning) return null;
   if (pathname === "/timer") return null;
 
+  const hasSession = elapsed > 0 || isRunning;
+
   return (
-    <div className="fixed bottom-[84px] right-4 z-40 flex items-center gap-1 rounded-full border border-border bg-card py-1.5 pl-3 pr-1.5 shadow-lg md:bottom-6">
-      <Link
-        href="/timer"
-        className="flex items-center gap-2 text-sm font-medium"
-      >
-        <TimerIcon
-          className={`size-4 ${isRunning ? "text-primary" : "text-muted-foreground"}`}
-        />
-        <span className="font-mono tabular-nums">
-          {formatDuration(elapsed)}
-        </span>
-      </Link>
-      <Button
-        variant="ghost"
-        size="icon-sm"
-        onClick={isRunning ? pause : resume}
-        aria-label={isRunning ? "Mettre en pause" : "Reprendre"}
-      >
-        {isRunning ? (
-          <Pause className="size-4" />
-        ) : (
-          <Play className="size-4" />
-        )}
-      </Button>
+    <div className="fixed bottom-[88px] right-4 z-40 md:bottom-6">
+      {hasSession ? (
+        <div className="flex items-center gap-2 rounded-full border border-border bg-card py-3 pl-5 pr-2.5 shadow-xl">
+          <Link
+            href="/timer"
+            className="flex items-center gap-3 text-lg font-semibold"
+          >
+            <TimerIcon
+              className={`size-5 ${isRunning ? "text-primary" : "text-muted-foreground"}`}
+            />
+            <span className="font-mono tabular-nums">
+              {formatDuration(elapsed)}
+            </span>
+          </Link>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={isRunning ? pause : resume}
+            aria-label={isRunning ? "Mettre en pause" : "Reprendre"}
+          >
+            {isRunning ? (
+              <Pause className="size-5" />
+            ) : (
+              <Play className="size-5" />
+            )}
+          </Button>
+        </div>
+      ) : (
+        <Button
+          size="lg"
+          className="rounded-full shadow-xl"
+          onClick={() => start()}
+        >
+          <Play className="mr-2 size-4" /> Démarrer
+        </Button>
+      )}
     </div>
   );
 }

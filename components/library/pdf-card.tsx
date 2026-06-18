@@ -12,16 +12,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { deletePdf } from "@/lib/actions/pdfs";
 import { PdfViewer } from "@/components/library/pdf-viewer";
 import { ShareDialog } from "@/components/library/share-dialog";
+import { DraggableWindow } from "@/components/library/draggable-window";
 
 type Pdf = {
   id: string;
@@ -41,6 +35,7 @@ export function PdfCard({
   shares?: { email: string }[];
 }) {
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   async function handleDelete() {
     setIsDeleting(true);
@@ -77,21 +72,14 @@ export function PdfCard({
         </div>
       </CardContent>
       <CardFooter className="gap-2">
-        <Dialog>
-          <DialogTrigger
-            render={
-              <Button variant="outline" size="sm" className="flex-1">
-                Aperçu
-              </Button>
-            }
-          />
-          <DialogContent className="max-w-4xl">
-            <DialogHeader>
-              <DialogTitle>{pdf.name}</DialogTitle>
-            </DialogHeader>
-            <PdfViewer url={`/api/pdfs/${pdf.id}`} />
-          </DialogContent>
-        </Dialog>
+        <Button
+          variant="outline"
+          size="sm"
+          className="flex-1"
+          onClick={() => setIsPreviewOpen(true)}
+        >
+          Aperçu
+        </Button>
         {isAdmin && (
           <>
             <ShareDialog pdfId={pdf.id} pdfName={pdf.name} shares={shares} />
@@ -107,6 +95,12 @@ export function PdfCard({
           </>
         )}
       </CardFooter>
+
+      {isPreviewOpen && (
+        <DraggableWindow title={pdf.name} onClose={() => setIsPreviewOpen(false)}>
+          <PdfViewer url={`/api/pdfs/${pdf.id}`} />
+        </DraggableWindow>
+      )}
     </Card>
   );
 }
